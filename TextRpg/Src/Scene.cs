@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRpg
+namespace TextRpg.Src
 {
-    internal class Event
+    internal class Scene
     {
     }
 }

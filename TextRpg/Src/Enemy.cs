@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRpg
+namespace TextRpg.Src
 {
-    internal class Item
+    internal class Enemy
     {
-        private string mName;
     }
 }

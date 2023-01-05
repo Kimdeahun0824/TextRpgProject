@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRpg
+namespace TextRpg.Src
 {
-    internal class UI
+    internal class Item
     {
+        private string mName;
+
     }
 }

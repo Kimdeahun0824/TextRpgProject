@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TextRpg
+namespace TextRpg.Src
 {
-    internal class FileIo
+    internal interface ISingelton<T> where T : class
     {
-
+        T getInstance();
     }
 }
