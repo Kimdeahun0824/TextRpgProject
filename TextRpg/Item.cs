@@ -8,6 +8,6 @@ namespace TextRpg
 {
     internal class Item
     {
-        string mName;
+        private string mName;
     }
 }

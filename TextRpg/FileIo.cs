@@ -8,5 +8,6 @@ namespace TextRpg
 {
     internal class FileIo
     {
+
     }
 }
