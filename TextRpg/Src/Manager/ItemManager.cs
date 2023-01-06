@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRpg.Src.Manager;
 
 namespace TextRpg.Src
 {
-    internal class ItemManager : ISingelton<ItemManager>
+    internal class ItemManager
     {
         private static ItemManager instance = new ItemManager();
         private Dictionary<string, Item> mItems;
@@ -16,16 +17,36 @@ namespace TextRpg.Src
             mItems = new Dictionary<string, Item>();
         }
 
-        public ItemManager getInstance()
+        public void ItemAdd(string key, Item item)
         {
-            if (instance == null)
+            mItems.Add(key, item);
+        }
+
+        public Item ItemFind(string key)
+        {
+            if (mItems.ContainsKey(key))
             {
-                instance = new ItemManager();
-                return instance;
+                return mItems[key];
             }
             else
             {
-                return instance;
+                return null;
+            }
+        }
+
+        public static ItemManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ItemManager();
+                    return instance;
+                }
+                else
+                {
+                    return instance;
+                }
             }
         }
     }

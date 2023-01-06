@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace TextRpg.Src
 {
-    internal interface ISingelton<T> where T : class
+    public enum ItemType
     {
-        T getInstance();
+        NONE, LEFTHAND, RIGHTHAND, TWOHANDED, ARMOR
     }
 }

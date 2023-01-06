@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextRpg.Src.Manager;
 
 namespace TextRpg.Src
 {
-    internal class EnemyManager : ISingelton<EnemyManager>
+    internal class EnemyManager
     {
         private static EnemyManager instance = new EnemyManager();
         private Dictionary<string, Enemy> mEnemys;
@@ -16,17 +17,39 @@ namespace TextRpg.Src
             mEnemys = new Dictionary<string, Enemy>();
         }
 
-        public EnemyManager getInstance()
+        public void EnemyAdd(string key, Enemy enemy)
         {
-            if (instance == null)
+            mEnemys.Add(key, enemy);
+        }
+        
+        public Enemy EnemyFind(string key)
+        {
+            if (mEnemys.ContainsKey(key))
             {
-                instance = new EnemyManager();
-                return instance;
+                return mEnemys[key];
             }
             else
             {
-                return instance;
+                return null;
             }
+        }
+
+
+        public static EnemyManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new EnemyManager();
+                    return instance;
+                }
+                else
+                {
+                    return instance;
+                }
+            }
+            
         }
     }
 }

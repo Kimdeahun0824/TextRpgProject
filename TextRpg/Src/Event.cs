@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,65 +12,157 @@ namespace TextRpg.Src
         private string mContent;
 
         private List<string> mOptional;
-
-        private bool mIs_Next_Content;
         private List<string> mNextContentKey;
 
-        private Item mRewardItem;
+        private List<string> mRewardItemKey;
         private int mRewardGold;
         private int mRewardExp;
 
         private int mDelay;
 
+        private bool mCombat;
+        private string mEnemyKey;
+
+        private int mCount;
+
         public Event()
         {
+            mName = string.Empty;
+            mContent = string.Empty;
+            mOptional = new List<string>();
+            mNextContentKey = new List<string>();
+            mRewardItemKey = new List<string>();
+            mRewardGold = 0;
+            mRewardExp = 0;
+            mDelay = 0;
+            mCombat = false;
+            mEnemyKey = string.Empty;
+            mCount = 0;
 
+        }
+
+        public bool EventCreate(Object value)
+        {
+            return EventCreateSelect(value);
+        }
+
+        public bool EventCreateSelect(Object value)
+        {
+            switch (mCount)
+            {
+                case 0:
+                    mName = (string)value;
+                    mCount++;
+                    break;
+                case 1:
+                    mContent = (string)value;
+                    mCount++;
+                    break;
+                case 2:
+                    foreach(var i in (List<string>)value)
+                    {
+                        mOptional.Add(i);
+                    }
+                    mCount++;
+                    break;
+                case 3:
+                    foreach (var i in (List<string>)value)
+                    {
+                        mNextContentKey.Add(i);
+                    }
+                    mCount++;
+                    break;
+                case 4:
+                    foreach(var i in (List<string>)value)
+                    {
+                        mRewardItemKey.Add(i);
+                    }
+                    mCount++;
+                    break;
+                case 5:
+                    mRewardGold = int.Parse((string)value);
+                    mCount++;
+                    break;
+                case 6:
+                    mRewardExp = int.Parse((string)value);
+                    mCount++;
+                    break;
+                case 7:
+                    mDelay = int.Parse((string)value);
+                    mCount++;
+                    break;
+                case 8:
+                    if((string)value == "TRUE")
+                    {
+                        mCombat = true;
+                    }
+                    else
+                    {
+                        mCombat = false;
+                    }
+                    mCount++;
+                    break;
+                case 9:
+                    mEnemyKey = (string)value;
+                    mCount++;
+                    break;
+                default:
+                    break;
+            }
+            if (9 < mCount)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public string Name
         {
             get { return mName; }
-            private set { mName = value; }
+            set { mName = value; }
         }
         public string Content
         {
             get { return mContent; }
-            private set { mContent = value; }
+            set { mContent = value; }
         }
         public List<string> Optional
         {
             get { return mOptional; }
-            private set { mOptional = value; }
-        }
-        public bool Is_Next_Content
-        {
-            get { return mIs_Next_Content; }
-            private set { mIs_Next_Content = value; }
+            set { mOptional = value; }
         }
         public List<string> NextContentKey
         {
             get { return mNextContentKey; }
-            private set { mNextContentKey = value; }
+            set { mNextContentKey = value; }
         }
-        public Item RewardItem
+        public List<string> RewardItemKey
         {
-            get { return mRewardItem; }
-            private set { mRewardItem = value; }
+            get { return mRewardItemKey; }
+            set { mRewardItemKey = value; }
         }
         public int RewardGold
         {
             get { return mRewardGold; }
-            private set { mRewardGold = value; }
+            set { mRewardGold = value; }
         }
         public int RewardExp
         {
             get { return mRewardExp; }
-            private set { mRewardExp = value; }
+            set { mRewardExp = value; }
         }
         public int Delay
         {
             get { return mDelay; }
-            private set { mDelay = value; }
+            set { mDelay = value; }
+        }
+        public string EnemyKey
+        {
+            get { return mEnemyKey; }
+            set { mEnemyKey = value; }
         }
 
     }
