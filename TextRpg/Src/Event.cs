@@ -38,7 +38,6 @@ namespace TextRpg.Src
             mCombat = false;
             mEnemyKey = string.Empty;
             mCount = 0;
-
         }
 
         public bool EventCreate(Object value)

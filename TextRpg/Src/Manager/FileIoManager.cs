@@ -97,6 +97,7 @@ namespace TextRpg.Src
 
             foreach (var i in sArray)
             {
+                //Console.WriteLine(i);
                 if (!fileEnd)
                 {
                     if (i == "")

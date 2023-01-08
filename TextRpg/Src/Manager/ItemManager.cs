@@ -10,7 +10,7 @@ namespace TextRpg.Src
     internal class ItemManager
     {
         private static ItemManager instance = new ItemManager();
-        private Dictionary<string, Item> mItems;
+        public Dictionary<string, Item> mItems;
 
         private ItemManager()
         {
@@ -19,7 +19,15 @@ namespace TextRpg.Src
 
         public void ItemAdd(string key, Item item)
         {
-            mItems.Add(key, item);
+            if(mItems.ContainsKey(key))
+            {
+                return;
+            }
+            else
+            {
+                mItems.Add(key, item);
+            }
+            
         }
 
         public Item ItemFind(string key)

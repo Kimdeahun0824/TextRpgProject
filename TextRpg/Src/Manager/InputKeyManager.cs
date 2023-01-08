@@ -13,29 +13,16 @@ namespace TextRpg.Src.Manager
         private static InputKeyManager instance = new InputKeyManager();
         private ConsoleKeyInfo consoleKeyInfo;
 
-        
-
         private InputKeyManager()
         {
 
         }
-        public IinputKeyAction userInput()
+
+        public ConsoleKey userInput()
         {
             consoleKeyInfo = Console.ReadKey();
-            IinputKeyAction inputKey = null;
-            switch (consoleKeyInfo.Key)
-            {
-                case ConsoleKey.D0:
-                    //inputKey = InputKey_0.Instance;
-                    break;
-                case ConsoleKey.F1:
-                    inputKey = InputKey_F1.Instance;
-                    break;
-                default:
-                    inputKey = null;
-                    break;
-            }
-            return inputKey;
+            
+            return consoleKeyInfo.Key;
         }
 
 

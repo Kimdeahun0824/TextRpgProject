@@ -40,7 +40,7 @@ namespace TextRpg.Src
             mLeftHandEquipItem = null;
             mRightHandEquipItem = null;
             mArmorEquipItem = null;
-        }
+        } 
 
         public void AddStatus(Status target, int value)
         {

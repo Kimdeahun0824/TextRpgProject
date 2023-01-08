@@ -681,7 +681,7 @@ namespace TextRpg.Src.Manager.InputKey
     //    }
 
     //    public void Action(object obj)
-    //    {
+    //    
     //        throw new NotImplementedException();
     //    }
 
@@ -704,13 +704,13 @@ namespace TextRpg.Src.Manager.InputKey
 
         private InputKey_F1()
         {
+
         }
 
         public void Action()
         {
             FileIoManager.Instance.PlayerDataSave(mPlayerData);
         }
-        public void test() { }
 
         public void GetData(Object obj)
         {
