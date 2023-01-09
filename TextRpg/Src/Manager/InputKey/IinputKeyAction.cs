@@ -8,7 +8,6 @@ namespace TextRpg.Src.Manager.InputKey
 {
     internal interface IinputKeyAction
     {
-        void GetData(Object obj);
-        void Action();
+        void Action(Object obj);
     }
 }

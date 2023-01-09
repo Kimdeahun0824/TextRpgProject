@@ -700,28 +700,18 @@ namespace TextRpg.Src.Manager.InputKey
     internal class InputKey_F1 : IinputKeyAction
     {
         private static IinputKeyAction instance = new InputKey_F1();
-        private Player mPlayerData;
 
         private InputKey_F1()
         {
 
         }
 
-        public void Action()
+
+        public void Action(object obj)
         {
-            FileIoManager.Instance.PlayerDataSave(mPlayerData);
+            FileIoManager.Instance.PlayerDataSave((Player)obj);
         }
 
-        public void GetData(Object obj)
-        {
-            mPlayerData = (Player)obj;
-        }
-
-        public Player PlayerData
-        {
-            get { return mPlayerData; }
-            set { mPlayerData = value; }
-        }
 
         public static IinputKeyAction Instance
         {

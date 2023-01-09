@@ -17,12 +17,16 @@ namespace TextRpg.Src
         {
 
         }
-
+        public bool PlayerDataCheck()
+        {
+            FileInfo fi = new FileInfo("Save.csv");
+            return fi.Exists;
+        }
         public void PlayerDataSave(Player player)
         {
-            FileStream fs = File.Create("save.csv");
+            FileStream fs = File.Create("Save.csv");
             StreamWriter sw = new StreamWriter(fs);
-            sw.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}"
+            sw.Write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}"
                 , player.Name
                 , player.Stat[Status.LEVEL]
                 , player.Stat[Status.EXP]
@@ -34,9 +38,38 @@ namespace TextRpg.Src
                 , player.Stat[Status.CHARISMA]
                 , player.Stat[Status.HEALTH]
                 , player.Stat[Status.WISDOM]
-                , player.PlayerInventory);
+                , player.CurrentEventName);
+            if (0 < player.PlayerInventory.Items.Count)
+            {
+                foreach (var i in player.PlayerInventory.Items)
+                {
+                    sw.WriteLine(",{0}", i.Name);
+                }
+            }
             sw.Close();
             fs.Close();
+        }
+
+        public Player PlayerDataLoad()
+        {
+            FileStream fs = File.OpenRead("Save.csv");
+            StreamReader sr = new StreamReader(fs);
+            string s;
+            string[] sArray = null;
+            while (!sr.EndOfStream)
+            {
+                s = sr.ReadLine();
+                sArray = s.Split(',');
+            }
+            sr.Close();
+            fs.Close();
+
+            Player player = new Player();
+            foreach (var i in sArray)
+            {
+                player.DataLoad(i);
+            }
+            return player;
         }
 
         public void ItemLoad()
@@ -82,7 +115,8 @@ namespace TextRpg.Src
             string[] sArray = null;
             while (!sr.EndOfStream)
             {
-                s = sr.ReadLine();
+                s = sr.ReadToEnd();
+                s = string.Format(s.Replace("\\n", "\n"));
                 sArray = s.Split(',');
             }
             sr.Close();
@@ -94,7 +128,6 @@ namespace TextRpg.Src
             bool fileEnd = false;
             bool listAdd = false;
             bool itemListAdd = false;
-
             foreach (var i in sArray)
             {
                 //Console.WriteLine(i);
@@ -145,6 +178,8 @@ namespace TextRpg.Src
                         _event = null;
                         _event = new Event();
                         fileEnd = false;
+                        listAdd = false;
+                        itemListAdd = false;
                     }
                 }
             }

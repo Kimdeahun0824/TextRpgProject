@@ -30,7 +30,11 @@ namespace TextRpg.Src
         {
             foreach(var _event in mEvents)
             {
-                mEventNameList.Add(_event.Key);
+                string _eventKey = _event.Key;
+                if (!_eventKey.Contains("-"))
+                {
+                    mEventNameList.Add(_event.Key);
+                }
             }
         }
 
@@ -73,5 +77,7 @@ namespace TextRpg.Src
                 }
             }
         }
+
+
     }
 }

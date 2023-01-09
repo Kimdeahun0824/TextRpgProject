@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,11 @@ namespace TextRpg.Src
         private Item mArmorEquipItem;
 
         private int mCombatPower;
+
+        private int mCount;
+        private string mCurrentEventName;
+
+        private bool mIs_First;
 
         public Player()
         {
@@ -40,7 +46,76 @@ namespace TextRpg.Src
             mLeftHandEquipItem = null;
             mRightHandEquipItem = null;
             mArmorEquipItem = null;
-        } 
+
+            mCurrentEventName = "<위대한 모험가를 꿈꾸는>";
+
+            mCount = 0;
+        }
+
+        public Player(Player player)
+        {
+            mName = player.Name;
+            mStatus = player.Stat;
+            mInventory = player.PlayerInventory;
+            mLeftHandEquipItem = player.LeftHandEquipItem;
+            mRightHandEquipItem = player.RightHandEquipItem;
+            mArmorEquipItem = player.RightHandEquipItem;
+            mCurrentEventName = player.CurrentEventName;
+        }
+
+        public void DataLoad(string value)
+        {
+            switch (mCount)
+            {
+                case 0:
+                    mName = value;
+                    mCount++;
+                    break;
+                case 1:
+                    mStatus[Status.LEVEL] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 2:
+                    mStatus[Status.EXP] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 3:
+                    mStatus[Status.HP] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 4:
+                    mStatus[Status.MP] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 5:
+                    mStatus[Status.STRENGTH] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 6:
+                    mStatus[Status.AGILITY] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 7:
+                    mStatus[Status.INTELLIGENCE] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 8:
+                    mStatus[Status.CHARISMA] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 9:
+                    mStatus[Status.HEALTH] = int.Parse(value);
+                    mCount++;
+                    break;
+                case 10:
+                    mStatus[Status.WISDOM] = int.Parse(value);
+                    mCount++;
+                    break;
+                default:
+                    mInventory.AddItem(ItemManager.Instance.ItemFind(value));
+                    break;
+            }
+        }
 
         public void AddStatus(Status target, int value)
         {
@@ -56,6 +131,10 @@ namespace TextRpg.Src
                 mStatus[target] -= value;
             }
         }
+        public int GetStatus(Status key)
+        {
+            return mStatus[key];
+        }
 
         public void ItemChange()
         {
@@ -68,13 +147,13 @@ namespace TextRpg.Src
             {
                 if (item.ItemType.Equals(ItemType.LEFTHAND))
                 {
-                    mInventory.AddItem(mLeftHandEquipItem.Name, mLeftHandEquipItem);
+                    mInventory.AddItem(mLeftHandEquipItem);
                     mLeftHandEquipItem = item;
                 }
                 else if (item.ItemType.Equals(ItemType.TWOHANDED))
                 {
                     mLeftHandEquipItem = item;
-                    mInventory.AddItem(mRightHandEquipItem.Name, mRightHandEquipItem);
+                    mInventory.AddItem(mRightHandEquipItem);
                     mRightHandEquipItem = null;
                 }
             }
@@ -83,32 +162,37 @@ namespace TextRpg.Src
         public Dictionary<Status, int> Stat
         {
             get { return mStatus; }
-            private set { mStatus = value; }
+            set { mStatus = value; }
         }
         public string Name
         {
             get { return mName; }
-            private set { mName = value; }
+            set { mName = value; }
         }
         public Inventory PlayerInventory
         {
             get { return mInventory; }
-            private set { mInventory = value; }
+            set { mInventory = value; }
         }
         public Item LeftHandEquipItem
         {
             get { return mLeftHandEquipItem; }
-            private set { mLeftHandEquipItem = value; }
+            set { mLeftHandEquipItem = value; }
         }
         public Item RightHandEquipItem
         {
             get { return mRightHandEquipItem; }
-            private set { mRightHandEquipItem = value; }
+            set { mRightHandEquipItem = value; }
         }
         public Item ArmorEquipItem
         {
             get { return mArmorEquipItem; }
-            private set { mArmorEquipItem = value; }
+            set { mArmorEquipItem = value; }
+        }
+        public string CurrentEventName
+        {
+            get { return mCurrentEventName; }
+            set { mCurrentEventName = value; }
         }
     }
 }

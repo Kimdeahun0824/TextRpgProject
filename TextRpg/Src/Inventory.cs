@@ -8,12 +8,29 @@ namespace TextRpg.Src
 {
     internal class Inventory
     {
-        private Dictionary<string, Item> mItems;
+        private List<Item> mItems;
         private int mInventorySize;
 
-        public void AddItem(string key, Item item)
+        public Inventory()
         {
-            mItems.Add(key, item);
+            mItems = new List<Item>();
+        }
+
+        public void AddItem(Item item)
+        {
+            mItems.Add(item);
+        }
+
+        public List<Item> Items
+        {
+            get { return mItems; }
+            set { mItems = value; }
+        }
+
+        public int InventorySize
+        {
+            get { return mInventorySize; }
+            set { mInventorySize = value; }
         }
     }
 }

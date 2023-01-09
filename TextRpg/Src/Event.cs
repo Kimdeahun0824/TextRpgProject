@@ -51,6 +51,7 @@ namespace TextRpg.Src
             {
                 case 0:
                     mName = (string)value;
+                    mName = string.Format(mName.Replace("\r\n", ""));
                     mCount++;
                     break;
                 case 1:
