@@ -13,6 +13,16 @@ namespace TextRpg.Src
         private static FileIoManager instance = new FileIoManager();
         private Player playerData;
 
+        public void jsonWriteTest()
+        {
+            string filePath = @"";
+        }
+
+        public void jsonReadTest()
+        {
+
+        }
+
         private FileIoManager()
         {
 

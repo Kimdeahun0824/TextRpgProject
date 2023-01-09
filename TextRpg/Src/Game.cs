@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Transactions;
 using TextRpg.Src.Manager;
 using TextRpg.Src.Manager.InputKey;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TextRpg.Src
 {
