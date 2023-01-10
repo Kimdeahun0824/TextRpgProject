@@ -24,7 +24,10 @@ namespace TextRpg.Src
         private string mEnemyKey;
 
         private int mCount;
+        private bool mEventEnd;
 
+        private string mRewardStat;
+        private int mRewardStatValue;
         public Event()
         {
             mName = string.Empty;
@@ -38,6 +41,9 @@ namespace TextRpg.Src
             mCombat = false;
             mEnemyKey = string.Empty;
             mCount = 0;
+            mEventEnd = false;
+            mRewardStat = string.Empty;
+            mRewardStatValue = 0;
         }
 
         public bool EventCreate(Object value)
@@ -59,7 +65,7 @@ namespace TextRpg.Src
                     mCount++;
                     break;
                 case 2:
-                    foreach(var i in (List<string>)value)
+                    foreach (var i in (List<string>)value)
                     {
                         mOptional.Add(i);
                     }
@@ -68,12 +74,16 @@ namespace TextRpg.Src
                 case 3:
                     foreach (var i in (List<string>)value)
                     {
+                        if (i.Equals("RANDOM"))
+                        {
+                            mEventEnd = true;
+                        }
                         mNextContentKey.Add(i);
                     }
                     mCount++;
                     break;
                 case 4:
-                    foreach(var i in (List<string>)value)
+                    foreach (var i in (List<string>)value)
                     {
                         mRewardItemKey.Add(i);
                     }
@@ -92,7 +102,7 @@ namespace TextRpg.Src
                     mCount++;
                     break;
                 case 8:
-                    if((string)value == "TRUE")
+                    if ((string)value == "TRUE")
                     {
                         mCombat = true;
                     }
@@ -106,10 +116,18 @@ namespace TextRpg.Src
                     mEnemyKey = (string)value;
                     mCount++;
                     break;
+                case 10:
+                    mRewardStat = (string)value;
+                    mCount++;
+                    break;
+                case 11:
+                    mRewardStatValue = int.Parse((string)value);
+                    mCount++;
+                    break;
                 default:
                     break;
             }
-            if (9 < mCount)
+            if (11 < mCount)
             {
                 return true;
             }
@@ -159,10 +177,30 @@ namespace TextRpg.Src
             get { return mDelay; }
             set { mDelay = value; }
         }
+        public bool Combat
+        {
+            get { return mCombat; }
+            set { mCombat = value; }
+        }
         public string EnemyKey
         {
             get { return mEnemyKey; }
             set { mEnemyKey = value; }
+        }
+        public bool EventEnd
+        {
+            get { return mEventEnd; }
+            set { mEventEnd = value; }
+        }
+        public string RewardStat
+        {
+            get { return mRewardStat; }
+            set { mRewardStat = value; }
+        }
+        public int RewardStatValue
+        {
+            get { return mRewardStatValue; }
+            set { mRewardStatValue = value; }
         }
 
     }

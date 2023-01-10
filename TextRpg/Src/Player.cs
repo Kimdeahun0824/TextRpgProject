@@ -21,6 +21,7 @@ namespace TextRpg.Src
 
         private int mCount;
         private string mCurrentEventName;
+        private int mGold;
 
         private bool mIs_First;
 
@@ -50,6 +51,7 @@ namespace TextRpg.Src
             mCurrentEventName = "<위대한 모험가를 꿈꾸는>";
 
             mCount = 0;
+            mGold = 0;
         }
 
         public Player(Player player)
@@ -61,6 +63,7 @@ namespace TextRpg.Src
             mRightHandEquipItem = player.RightHandEquipItem;
             mArmorEquipItem = player.RightHandEquipItem;
             mCurrentEventName = player.CurrentEventName;
+            mGold = player.Gold;
         }
 
         public void DataLoad(string value)
@@ -111,10 +114,18 @@ namespace TextRpg.Src
                     mStatus[Status.WISDOM] = int.Parse(value);
                     mCount++;
                     break;
+                case 11:
+                    mGold = int.Parse(value);
+                    mCount++;
+                    break;
                 default:
                     mInventory.AddItem(ItemManager.Instance.ItemFind(value));
                     break;
             }
+        }
+        public void AddGold(int gold)
+        {
+            mGold += gold;
         }
 
         public void AddStatus(Status target, int value)
@@ -193,6 +204,16 @@ namespace TextRpg.Src
         {
             get { return mCurrentEventName; }
             set { mCurrentEventName = value; }
+        }
+        public int CombatPower
+        {
+            get { return mCombatPower; }
+            set { mCombatPower = value; }
+        }
+        public int Gold
+        {
+            get { return mGold; }
+            set { mGold = value; }
         }
     }
 }

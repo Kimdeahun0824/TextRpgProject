@@ -10,7 +10,7 @@ namespace TextRpg.Src
     {
         private string mName;
         private int mCombatPower;
-
+        private int mHp;
         private int mCount;
 
         public Enemy()
@@ -18,6 +18,7 @@ namespace TextRpg.Src
             mName = string.Empty;
             CombatPower = 0;
             mCount = 0;
+            mHp = 5;
         }
 
         public bool EnemyCreate(Object value)
@@ -26,6 +27,7 @@ namespace TextRpg.Src
             {
                 case 0:
                     mName = (string)value;
+                    mName = string.Format(mName.Replace("\r\n", ""));
                     mCount++;
                     break;
                 case 1:
@@ -54,6 +56,11 @@ namespace TextRpg.Src
         {
             get { return mCombatPower; }
             private set { mCombatPower = value; }
+        }
+        public int HP
+        {
+            get { return mHp; }
+            set { mHp = value; }
         }
 
     }

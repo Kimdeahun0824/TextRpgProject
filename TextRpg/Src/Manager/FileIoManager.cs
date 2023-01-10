@@ -36,7 +36,7 @@ namespace TextRpg.Src
         {
             FileStream fs = File.Create("Save.csv");
             StreamWriter sw = new StreamWriter(fs);
-            sw.Write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}"
+            sw.Write("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}"
                 , player.Name
                 , player.Stat[Status.LEVEL]
                 , player.Stat[Status.EXP]
@@ -48,6 +48,7 @@ namespace TextRpg.Src
                 , player.Stat[Status.CHARISMA]
                 , player.Stat[Status.HEALTH]
                 , player.Stat[Status.WISDOM]
+                , player.Gold
                 , player.CurrentEventName);
             if (0 < player.PlayerInventory.Items.Count)
             {
@@ -90,7 +91,8 @@ namespace TextRpg.Src
             string[] sArray = null;
             while (!sr.EndOfStream)
             {
-                s = sr.ReadLine();
+                s = sr.ReadToEnd();
+                s = string.Format(s.Replace("\\n", "\n"));
                 sArray = s.Split(',');
             }
             sr.Close();
@@ -119,7 +121,8 @@ namespace TextRpg.Src
 
         public void EventLoad()
         {
-            FileStream fs = File.OpenRead("Events.csv");
+            
+            FileStream fs = File.OpenRead("Events.tsv");
             StreamReader sr = new StreamReader(fs);
             string s;
             string[] sArray = null;
@@ -127,7 +130,7 @@ namespace TextRpg.Src
             {
                 s = sr.ReadToEnd();
                 s = string.Format(s.Replace("\\n", "\n"));
-                sArray = s.Split(',');
+                sArray = s.Split('\t');
             }
             sr.Close();
             fs.Close();
@@ -203,7 +206,8 @@ namespace TextRpg.Src
             string[] sArray = null;
             while (!sr.EndOfStream)
             {
-                s = sr.ReadLine();
+                s = sr.ReadToEnd();
+                s = string.Format(s.Replace("\\n", "\n"));
                 sArray = s.Split(',');
             }
             sr.Close();

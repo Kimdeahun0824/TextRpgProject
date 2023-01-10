@@ -11,8 +11,10 @@ namespace TextRpg.Src
     {
         public string mContent;
         public virtual Scene GetScene() { return this; }
-        public virtual void EventProgress(Event _event) {}
-
+        public virtual void EventProgress(Event _event) { }
+        public virtual void EventSuccess(Event _event) { }
+        public virtual void UiUpdate(Player player) { }
+        public virtual void ItemInfo(int select) { }
 
         public string Content
         {
@@ -47,7 +49,6 @@ namespace TextRpg.Src
         {
             ui = new UI(player);
             Random random = new Random();
-            ui = new UI(player);
             mContent = ui.PlayerStatus + "\n=============================================\n";
             //    + _event.Content + "\n=============================================\n";
             //mContent += "획득! : " + _event.RewardItemKey[random.Next(0, _event.RewardItemKey.Count)] + "\n";
@@ -61,6 +62,11 @@ namespace TextRpg.Src
             //}
         }
 
+        public override void UiUpdate(Player player)
+        {
+            ui.PlayerInfoUpdate(player);
+        }
+
         public override void EventProgress(Event _event)
         {
             mContent = ui.PlayerStatus;
@@ -71,33 +77,78 @@ namespace TextRpg.Src
             {
                 mContent += i + "\n";
             }
-
         }
 
-        public void EventSuccess(Event _event)
+        public override void EventSuccess(Event _event)
         {
-            mContent += "획득! : " + _event.RewardGold + "GOLD\n"
-                + "획득! : " + _event.RewardExp + "EXP\n";
+            mContent = ui.PlayerStatus;
+            mContent += "\n=============================================\n";
+            mContent += _event.Content;
+            mContent += "\n=============================================\n";
+            if (0 < _event.RewardGold)
+            {
+                mContent += "+ " + _event.RewardGold + " GOLD\n";
+            }
+            else if (_event.RewardGold < 0)
+            {
+                mContent += "- " + _event.RewardGold + " GOLD\n";
+            }
+            if (0 < _event.RewardExp)
+            {
+                mContent += "+ " + _event.RewardExp + " EXP\n";
+            }
+            else if (_event.RewardExp < 0)
+            {
+                mContent += "- " + _event.RewardExp + " EXP\n";
+            }
+            if (0 < _event.RewardStatValue)
+            {
+                mContent += "+ " + _event.RewardStat + " : " + _event.RewardStatValue + "\n";
+            }
+            else if (_event.RewardStatValue < 0)
+            {
+                mContent += "- " + _event.RewardStat + " : " + Math.Abs(_event.RewardStatValue) + "\n";
+            }
+            if (0 < _event.RewardItemKey.Count)
+            {
+                foreach (var i in _event.RewardItemKey)
+                {
+                    mContent += "획득! : " + i + "\n";
+                }
+            }
             mContent += "=============================================\n";
             foreach (var i in _event.Optional)
             {
                 mContent += i + "\n";
             }
-        }
-
-        public void InventoryOpen()
-        {
-
-        }
-
-        public void InventoryClose()
-        {
+            mContent += "\n=============================================\n" +
+                "Inventory : I\n";
 
         }
 
         public MainScene GetScene()
         {
             return this;
+        }
+    }
+
+    internal class InventoryScene : Scene
+    {
+        public InventoryScene(Player player)
+        {
+            mContent = "=============================================\n" +
+                "Player Inventory\n" +
+                "=============================================\n";
+            for (int i = 0; i < player.PlayerInventory.Items.Count; i++)
+            {
+                mContent += i + ". " + player.PlayerInventory.Items[i].Name + " ";
+            }
+            mContent += "\n=============================================\n설명을 볼 아이템을 선택 : ";
+        }
+
+        public override void ItemInfo(int select)
+        {
+            
         }
     }
 }

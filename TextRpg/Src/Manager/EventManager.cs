@@ -13,6 +13,7 @@ namespace TextRpg.Src
         private Dictionary<string, Event> mEvents;
         private List<string> mEventNameList;
         private Random random;
+        private string previousEventName;
 
         private EventManager()
         {
@@ -28,7 +29,7 @@ namespace TextRpg.Src
 
         public void EventNameListAdd()
         {
-            foreach(var _event in mEvents)
+            foreach (var _event in mEvents)
             {
                 string _eventKey = _event.Key;
                 if (!_eventKey.Contains("-"))
@@ -40,7 +41,19 @@ namespace TextRpg.Src
 
         public Event EventRandomFind()
         {
-            string randomKey = mEventNameList[random.Next(1,mEventNameList.Count())];
+            string randomKey = mEventNameList[random.Next(1, mEventNameList.Count())];
+            while (true)
+            {
+                if(randomKey == previousEventName)
+                {
+                    randomKey = mEventNameList[random.Next(1, mEventNameList.Count())];
+                }
+                else
+                {
+                    previousEventName = randomKey;
+                    break;
+                }
+            }
             return EventFind(randomKey);
         }
 
