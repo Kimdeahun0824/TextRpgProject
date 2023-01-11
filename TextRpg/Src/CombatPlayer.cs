@@ -10,9 +10,9 @@ namespace TextRpg.Src
     {
         private string mName;
         private int mHp;
-        private int mCombatPower;
+        private float mCombatPower;
 
-        public CombatPlayer(string Name, int CombatPower)
+        public CombatPlayer(string Name, float CombatPower)
         {
             this.mName = Name;
             this.mHp = 5;
@@ -29,7 +29,7 @@ namespace TextRpg.Src
             get { return mHp; }
             set { mHp = value; }
         }
-        public int CombatPower
+        public float CombatPower
         {
             get { return mCombatPower; }
             set { mCombatPower = value; }

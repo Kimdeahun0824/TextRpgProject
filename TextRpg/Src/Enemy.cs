@@ -9,7 +9,7 @@ namespace TextRpg.Src
     internal class Enemy
     {
         private string mName;
-        private int mCombatPower;
+        private float mCombatPower;
         private int mHp;
         private int mCount;
 
@@ -31,7 +31,7 @@ namespace TextRpg.Src
                     mCount++;
                     break;
                 case 1:
-                    mCombatPower = int.Parse((string)value);
+                    mCombatPower = float.Parse((string)value);
                     mCount++;
                     break;
                 default:
@@ -52,7 +52,7 @@ namespace TextRpg.Src
             get { return mName; }
             private set { mName = value; }
         }
-        public int CombatPower
+        public float CombatPower
         {
             get { return mCombatPower; }
             private set { mCombatPower = value; }

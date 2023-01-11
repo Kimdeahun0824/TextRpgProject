@@ -15,7 +15,7 @@ namespace TextRpg.Src
         private Status mTargetStatus_1;
         private Status mTargetStatus_2;
 
-        private int mBaseCombatPower;
+        private float mMultiplyValue;
         private int mCombatPower;
 
         private int mCount;
@@ -26,7 +26,7 @@ namespace TextRpg.Src
             mItemType = ItemType.NONE;
             mTargetStatus_1 = Status.NONE;
             mTargetStatus_2 = Status.NONE;
-            mBaseCombatPower = 0;
+            mMultiplyValue = 0;
             mCombatPower = 0;
             mCount = 0;
         }
@@ -37,7 +37,7 @@ namespace TextRpg.Src
             mItemType = itemType;
             mTargetStatus_1 = TargetStatus_1;
             mTargetStatus_2 = TargetStatus_2;
-            mBaseCombatPower = BaseCombatPower;
+            mMultiplyValue = BaseCombatPower;
             mCount = 0;
         }
 
@@ -56,19 +56,19 @@ namespace TextRpg.Src
                     mCount++;
                     break;
                 case 1:
-                    ItemTypeSelect(value);
+                    mItemType = ItemTypeParse(value);
                     mCount++;
                     break;
                 case 2:
-                    StatusTypeSelecet(mTargetStatus_1, value);
+                    mTargetStatus_1 = StatusParse(value);
                     mCount++;
                     break;
                 case 3:
-                    StatusTypeSelecet(mTargetStatus_2, value);
+                    mTargetStatus_2 = StatusParse(value);
                     mCount++;
                     break;
                 case 4:
-                    mBaseCombatPower = Convert.ToInt32(value);
+                    mMultiplyValue = float.Parse(value);
                     mCount++;
                     break;
                 default:
@@ -81,56 +81,6 @@ namespace TextRpg.Src
             else
             {
                 return false;
-            }
-        }
-        public void ItemTypeSelect(string value)
-        {
-            switch (ItemTypeParse(value))
-            {
-                case ItemType.NONE:
-                    mItemType = ItemType.NONE;
-                    break;
-                case ItemType.LEFTHAND:
-                    mItemType = ItemType.LEFTHAND;
-                    break;
-                case ItemType.RIGHTHAND:
-                    mItemType = ItemType.RIGHTHAND;
-                    break;
-                case ItemType.TWOHANDED:
-                    mItemType = ItemType.TWOHANDED;
-                    break;
-                case ItemType.ARMOR:
-                    mItemType = ItemType.ARMOR;
-                    break;
-                default:
-                    break;
-            }
-        }
-        public void StatusTypeSelecet(Status target, string value)
-        {
-            switch (StatusParse(value))
-            {
-                case Status.STRENGTH:
-                    target = Status.STRENGTH;
-                    break;
-                case Status.AGILITY:
-                    target = Status.AGILITY;
-                    break;
-                case Status.INTELLIGENCE:
-                    target = Status.INTELLIGENCE;
-                    break;
-                case Status.CHARISMA:
-                    target = Status.CHARISMA;
-                    break;
-                case Status.HEALTH:
-                    target = Status.HEALTH;
-                    break;
-                case Status.WISDOM:
-                    target = Status.WISDOM;
-                    break;
-                default:
-                    target = Status.NONE;
-                    break;
             }
         }
 
@@ -169,10 +119,10 @@ namespace TextRpg.Src
             get { return mTargetStatus_2; }
             private set { mTargetStatus_2 = value; }
         }
-        public int BaseCombatPower
+        public float MultiPlyValue
         {
-            get { return mBaseCombatPower; }
-            private set { mBaseCombatPower = value; }
+            get { return mMultiplyValue; }
+            private set { mMultiplyValue = value; }
         }
         public int CombatPower
         {

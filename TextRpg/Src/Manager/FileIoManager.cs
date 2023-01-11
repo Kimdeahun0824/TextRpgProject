@@ -85,7 +85,7 @@ namespace TextRpg.Src
 
         public void ItemLoad()
         {
-            FileStream fs = File.OpenRead("Items.csv");
+            FileStream fs = File.OpenRead("Items.tsv");
             StreamReader sr = new StreamReader(fs);
             string s;
             string[] sArray = null;
@@ -93,7 +93,7 @@ namespace TextRpg.Src
             {
                 s = sr.ReadToEnd();
                 s = string.Format(s.Replace("\\n", "\n"));
-                sArray = s.Split(',');
+                sArray = s.Split('\t');
             }
             sr.Close();
             fs.Close();

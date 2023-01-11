@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TextRpg.Src.Manager;
 
 namespace TextRpg.Src
 {
@@ -11,6 +10,7 @@ namespace TextRpg.Src
     {
         private static ItemManager instance = new ItemManager();
         public Dictionary<string, Item> mItems;
+        private Item mSelectItem;
 
         private ItemManager()
         {
@@ -19,7 +19,7 @@ namespace TextRpg.Src
 
         public void ItemAdd(string key, Item item)
         {
-            if(mItems.ContainsKey(key))
+            if (mItems.ContainsKey(key))
             {
                 return;
             }
@@ -27,7 +27,7 @@ namespace TextRpg.Src
             {
                 mItems.Add(key, item);
             }
-            
+
         }
 
         public Item ItemFind(string key)
@@ -40,6 +40,11 @@ namespace TextRpg.Src
             {
                 return null;
             }
+        }
+
+        public void ItemSelect(Item item)
+        {
+            mSelectItem = item;
         }
 
         public static ItemManager Instance
@@ -56,6 +61,11 @@ namespace TextRpg.Src
                     return instance;
                 }
             }
+        }
+        public Item SelectItem
+        {
+            get { return mSelectItem; }
+            private set { mSelectItem = value; }
         }
     }
 }

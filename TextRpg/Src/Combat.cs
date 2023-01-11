@@ -44,9 +44,9 @@ namespace TextRpg.Src
                     return false;
                 }
                 Console.Clear();
-                Console.WriteLine("===================================");
-                Console.WriteLine("{0}             ||         {1}", mPlayer.Name, mEnemy.Name);
-                Console.WriteLine("===================================");
+                Console.WriteLine("=============================================================");
+                Console.WriteLine("{0}의 전투력 : {1}            ||         {2}의 전투력 : {3}", mPlayer.Name,mPlayer.CombatPower, mEnemy.Name,mEnemy.CombatPower);
+                Console.WriteLine("=============================================================");
 
                 Action();
 
@@ -74,9 +74,10 @@ namespace TextRpg.Src
         {
             int Probability = 0;
 
-            int HitProbality;
+            int HitProbality = Math.Abs((int)(mPlayer.CombatPower - mEnemy.CombatPower));
             int DefenseProbality;
             int DodgeProbality;
+            
 
             Probability = random.Next(1, 101);
             if (mPlayerTurn && !mEnemyTurn)      // 플레이어 턴

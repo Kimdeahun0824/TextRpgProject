@@ -6,8 +6,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using TextRpg.Src.Manager;
-using TextRpg.Src.Manager.InputKey;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -19,7 +17,7 @@ namespace TextRpg.Src
         Combat combat;
         internal Scene currentScene;
         Event _event;
-        bool _eventEnd;
+
         public Game()
         {
             Init();
@@ -33,7 +31,6 @@ namespace TextRpg.Src
             EventManager.Instance.EventNameListAdd();
             combat = new Combat();
             currentScene = new TitleScene();
-            _eventEnd = false;
             player = new Player();
 
             Update();
@@ -44,7 +41,15 @@ namespace TextRpg.Src
             while (true)
             {
                 Console.Clear();
-                currentScene.UiUpdate(player);
+                player.CombatPowerUpdate();
+                if (4<player.GetStatus(Status.EXP))
+                {
+                    player.StatPoint += 5;
+                    player.Stat[Status.LEVEL] += 1;
+                    player.Stat[Status.EXP] -= 5;
+                    SceneChange(new LevelUpScene(player));
+                }
+                currentScene.SceneUpdate(player);
                 ScreenOutPut();
                 switch (currentScene)
                 {
@@ -56,6 +61,9 @@ namespace TextRpg.Src
                         break;
                     case InventoryScene:
                         InventorySceneKeyInput();
+                        break;
+                    case LevelUpScene:
+                        LevelUpSceneKeyInput();
                         break;
                 }
                 Thread.Sleep(10);
@@ -74,7 +82,10 @@ namespace TextRpg.Src
                     Console.WriteLine(currentScene.Content);
                     break;
                 case InventoryScene:
-                    Console.WriteLine(currentScene.Content);
+                    Console.Write(currentScene.Content);
+                    break;
+                case LevelUpScene:
+                    Console.Write(currentScene.Content);
                     break;
             }
 
@@ -83,6 +94,45 @@ namespace TextRpg.Src
         internal void SceneChange(Scene scene)
         {
             currentScene = scene;
+        }
+
+        public void LevelUpSceneKeyInput()
+        {
+            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+            switch (consoleKeyInfo.Key)
+            {
+                case ConsoleKey.D1:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.STRENGTH, 1);
+                    break;
+                case ConsoleKey.D2:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.AGILITY, 1);
+                    break;
+                case ConsoleKey.D3:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.INTELLIGENCE, 1);
+                    break;
+                case ConsoleKey.D4:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.CHARISMA, 1);
+                    break;
+                case ConsoleKey.D5:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.HEALTH, 1);
+                    break;
+                case ConsoleKey.D6:
+                    player.StatPoint -= 1;
+                    player.AddStatus(Status.WISDOM, 1);
+                    break;
+                default:
+                    break;
+            }
+
+            if(player.StatPoint < 1)
+            {
+                SceneChange(new MainScene(player));
+            }
         }
 
         public void MainSceneKeyInPut()
@@ -151,7 +201,6 @@ namespace TextRpg.Src
                             CombatPlayer combatPlayer = new CombatPlayer(player.Name, player.CombatPower);
                             combat.SetPlayer(combatPlayer);
                             combat.SetEnemy(EnemyManager.Instance.EnemyFind(_event.EnemyKey));
-                            Console.WriteLine("TEST");
                             if (combat.CombatStart())
                             {
                                 EnemyManager.Instance.EnemyFind(_event.EnemyKey).HP = 5;
@@ -222,9 +271,82 @@ namespace TextRpg.Src
 
         public void InventorySceneKeyInput()
         {
-            int userInput;
-            int.TryParse(Console.ReadLine(), out userInput);
-
+            if (currentScene.IsOpen)
+            {
+                ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+                switch (consoleKeyInfo.Key)
+                {
+                    case ConsoleKey.Enter:
+                        player.ItemChange(ItemManager.Instance.SelectItem);
+                        break;
+                    case ConsoleKey.Escape:
+                        break;
+                    default:
+                        break;
+                }
+                currentScene.IsOpen = false;
+                currentScene.SceneOpen(player);
+            }
+            else
+            {
+                string strUserInput = string.Empty;
+                bool IsEnter = false;
+                while (!IsEnter)
+                {
+                    ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+                    switch (consoleKeyInfo.Key)     
+                    {
+                        case ConsoleKey.Enter:
+                            IsEnter = true;
+                            break;
+                        case ConsoleKey.Escape:
+                            SceneChange(new MainScene(player));
+                            return;
+                        case ConsoleKey.D0:
+                            strUserInput += "0";
+                            break;
+                        case ConsoleKey.D1:
+                            strUserInput += "1";
+                            break;
+                        case ConsoleKey.D2:
+                            strUserInput += "2";
+                            break;
+                        case ConsoleKey.D3:
+                            strUserInput += "3";
+                            break;
+                        case ConsoleKey.D4:
+                            strUserInput += "4";
+                            break;
+                        case ConsoleKey.D5:
+                            strUserInput += "5";
+                            break;
+                        case ConsoleKey.D6:
+                            strUserInput += "6";
+                            break;
+                        case ConsoleKey.D7:
+                            strUserInput += "7";
+                            break;
+                        case ConsoleKey.D8:
+                            strUserInput += "8";
+                            break;
+                        case ConsoleKey.D9:
+                            strUserInput += "9";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (!strUserInput.Equals(string.Empty))
+                {
+                    int userInput;
+                    userInput = int.Parse(strUserInput);
+                    if (currentScene.ItemInfo(userInput))
+                    {
+                        Item item = player.PlayerInventory.Items[userInput];
+                        ItemManager.Instance.ItemSelect(item);
+                    }
+                }
+            }
         }
 
         public void PlayerEventReward()

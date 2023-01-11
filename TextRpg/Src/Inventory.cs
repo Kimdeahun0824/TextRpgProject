@@ -20,6 +20,10 @@ namespace TextRpg.Src
         {
             mItems.Add(item);
         }
+        public void RemoveItem(Item item)
+        {
+            mItems.Remove(item);
+        }
 
         public List<Item> Items
         {
