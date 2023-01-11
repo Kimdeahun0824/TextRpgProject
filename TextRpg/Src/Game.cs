@@ -157,6 +157,7 @@ namespace TextRpg.Src
                         }
                         else if (_event.NextContentKey[0] == "RANDOM")
                         {
+                            _event.EventEnd = true;
                             _event = EventManager.Instance.EventRandomFind();
                             return;
                         }
@@ -229,6 +230,7 @@ namespace TextRpg.Src
                             }
                             else
                             {
+                                _event.EventEnd = true;
                                 _event = EventManager.Instance.EventRandomFind();
                                 return;
                             }
