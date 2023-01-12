@@ -42,7 +42,11 @@ namespace TextRpg.Src
             {
                 Console.Clear();
                 player.CombatPowerUpdate();
-                if (4<player.GetStatus(Status.EXP))
+                if(player.GetStatus(Status.HP) < 1)
+                {
+                    SceneChange(new PlayerDeadScene());
+                }
+                if (4 < player.GetStatus(Status.EXP))
                 {
                     player.StatPoint += 5;
                     player.Stat[Status.LEVEL] += 1;
@@ -65,6 +69,9 @@ namespace TextRpg.Src
                     case LevelUpScene:
                         LevelUpSceneKeyInput();
                         break;
+                    case PlayerDeadScene:
+
+                        break;
                 }
                 Thread.Sleep(10);
             }
@@ -79,12 +86,16 @@ namespace TextRpg.Src
                     break;
                 case MainScene:
                     currentScene.EventProgress(_event);
+                    player.CurrentEventName = _event.Name;
                     Console.WriteLine(currentScene.Content);
                     break;
                 case InventoryScene:
                     Console.Write(currentScene.Content);
                     break;
                 case LevelUpScene:
+                    Console.Write(currentScene.Content);
+                    break;
+                case PlayerDeadScene:
                     Console.Write(currentScene.Content);
                     break;
             }
@@ -94,6 +105,12 @@ namespace TextRpg.Src
         internal void SceneChange(Scene scene)
         {
             currentScene = scene;
+        }
+
+        public void DeadSceneKeyInput()
+        {
+            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+            SceneChange(new TitleScene());
         }
 
         public void LevelUpSceneKeyInput()
@@ -129,7 +146,7 @@ namespace TextRpg.Src
                     break;
             }
 
-            if(player.StatPoint < 1)
+            if (player.StatPoint < 1)
             {
                 SceneChange(new MainScene(player));
             }
@@ -242,6 +259,13 @@ namespace TextRpg.Src
                     case ConsoleKey.I:
                         currentScene = new InventoryScene(player);
                         return;
+                    case ConsoleKey.F1:
+                        FileIoManager.Instance.PlayerDataSave(player);
+                        return;
+                    case ConsoleKey.F2:
+                        player = FileIoManager.Instance.PlayerDataLoad();
+                        _event = EventManager.Instance.EventFind(player.CurrentEventName);
+                        return;
                     default:
                         break;
                 }
@@ -256,17 +280,15 @@ namespace TextRpg.Src
                 case ConsoleKey.Enter:
                     if (FileIoManager.Instance.PlayerDataCheck())
                     {
-                        Player _player = FileIoManager.Instance.PlayerDataLoad();
-                        SceneChange(new MainScene(_player));
-                        _event = EventManager.Instance.EventFind(_player.CurrentEventName);
+                        player = FileIoManager.Instance.PlayerDataLoad();
+                        SceneChange(new MainScene(player));
+                        _event = EventManager.Instance.EventFind(player.CurrentEventName);
                     }
                     else
                     {
                         SceneChange(new MainScene(player));
+                        _event = EventManager.Instance.EventFind("<위대한 모험가를 꿈꾸는>");
                     }
-                    break;
-                case ConsoleKey.F1:
-                    FileIoManager.Instance.PlayerDataSave(player);
                     break;
             }
         }
@@ -296,7 +318,7 @@ namespace TextRpg.Src
                 while (!IsEnter)
                 {
                     ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
-                    switch (consoleKeyInfo.Key)     
+                    switch (consoleKeyInfo.Key)
                     {
                         case ConsoleKey.Enter:
                             IsEnter = true;

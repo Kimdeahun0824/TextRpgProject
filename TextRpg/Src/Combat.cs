@@ -44,9 +44,9 @@ namespace TextRpg.Src
                     return false;
                 }
                 Console.Clear();
-                Console.WriteLine("=============================================================");
-                Console.WriteLine("{0}의 전투력 : {1}            ||         {2}의 전투력 : {3}", mPlayer.Name,mPlayer.CombatPower, mEnemy.Name,mEnemy.CombatPower);
-                Console.WriteLine("=============================================================");
+                Console.WriteLine("=========================================================");
+                Console.WriteLine("{0}의 전투력 : {1}        ||       {2}의 전투력 : {3}", mPlayer.Name, mPlayer.CombatPower, mEnemy.Name, mEnemy.CombatPower);
+                Console.WriteLine("=========================================================");
 
                 Action();
 
@@ -72,61 +72,98 @@ namespace TextRpg.Src
 
         public void Attack()
         {
-            int Probability = 0;
-
-            int HitProbality = Math.Abs((int)(mPlayer.CombatPower - mEnemy.CombatPower));
-            int DefenseProbality;
-            int DodgeProbality;
-            
-
-            Probability = random.Next(1, 101);
+            int randNum = 0;
+            float probality = 0;
+            if (mPlayer.CombatPower < mEnemy.CombatPower)
+            {
+                probality = (mEnemy.CombatPower - mPlayer.CombatPower) * 0.01f;
+            }
+            else
+            {
+                probality = (mPlayer.CombatPower - mEnemy.CombatPower) * 0.01f;
+            }
+            if(0.8f <= probality)
+            {
+                probality = 0.8f;
+            }
+            randNum = random.Next(1, 101);
             if (mPlayerTurn && !mEnemyTurn)      // 플레이어 턴
             {
-                
                 Console.WriteLine("{0}의 공격!", mPlayer.Name);
                 Thread.Sleep(1000);
-                if (0 < Probability && Probability <= 50)
+                if (mPlayer.CombatPower < mEnemy.CombatPower)
                 {
-                    Hit();
+                    if (0 < randNum && randNum <= 50 - 50 * probality)
+                    {
+                        Hit();
+                    }
+                    else if (50 - 50 * probality < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
-                else if (50 < Probability && Probability <= 75)
+                else if (mPlayer.CombatPower == mEnemy.CombatPower)
                 {
-                    Defense();
+                    if (0 < randNum && randNum <= 50)
+                    {
+                        Hit();
+                    }
+                    else if (50 < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
-                else if (75 < Probability && Probability <= 100)
+                else
                 {
-                    Dodge();
+                    if (0 < randNum && randNum <= 50 + 50 * probality)
+                    {
+                        Hit();
+                    }
+                    else if (50 + 50 * probality < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
             }
             else if (!mPlayerTurn && mEnemyTurn) // 적 턴
             {
                 Console.WriteLine("{0}의 공격!", mEnemy.Name);
                 Thread.Sleep(1000);
-                if (0 < Probability && Probability <= 50)
+                if (mPlayer.CombatPower < mEnemy.CombatPower)
                 {
-                    Hit();
+                    if (0 < randNum && randNum <= 50 + 50 * probality)
+                    {
+                        Hit();
+                    }
+                    else if (50 + 50 * probality < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
-                else if (50 < Probability && Probability <= 75)
+                else if (mPlayer.CombatPower == mEnemy.CombatPower)
                 {
-                    Defense();
+                    if (0 < randNum && randNum <= 50)
+                    {
+                        Hit();
+                    }
+                    else if (50 < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
-                else if (75 < Probability && Probability <= 100)
+                else if (mPlayer.CombatPower > mEnemy.CombatPower)
                 {
-                    Dodge();
+                    if (0 < randNum && randNum <= 50 - 50 * probality)
+                    {
+                        Hit();
+                    }
+                    else if (50 - 50 * probality < randNum && randNum <= 100)
+                    {
+                        Dodge();
+                    }
                 }
             }
-        }
-
-        public void Defense()
-        {
-            if (mPlayerTurn && !mEnemyTurn)      // 플레이어 턴 상대의 행동
-            {
-                Console.WriteLine("{0}의 방어!", mEnemy.Name);
-            }
-            else if (!mPlayerTurn && mEnemyTurn) // 적 턴 상대의 행동
-            {
-                Console.WriteLine("{0}의 방어!", mPlayer.Name);
-            }
+            
         }
 
         public void Dodge()

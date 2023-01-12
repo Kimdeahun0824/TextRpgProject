@@ -30,14 +30,14 @@ namespace TextRpg.Src
 
         public Player()
         {
-            mName = "test";
+            mName = "테스";
 
             mStatus = new Dictionary<Status, int>();
 
             mStatus.Add(Status.LEVEL, 1);
-            mStatus.Add(Status.EXP, 1);
-            mStatus.Add(Status.HP, 1);
-            mStatus.Add(Status.MP, 1);
+            mStatus.Add(Status.EXP, 0);
+            mStatus.Add(Status.HP, 5);
+            mStatus.Add(Status.MP, 5);
             mStatus.Add(Status.STRENGTH, 1);
             mStatus.Add(Status.AGILITY, 1);
             mStatus.Add(Status.INTELLIGENCE, 1);
@@ -122,6 +122,22 @@ namespace TextRpg.Src
                     break;
                 case 11:
                     mGold = int.Parse(value);
+                    mCount++;
+                    break;
+                case 12:
+                    mCurrentEventName = value;
+                    mCount++;
+                    break;
+                case 13:
+                    mLeftHandEquipItem = ItemManager.Instance.ItemFind(value);
+                    mCount++;
+                    break;
+                case 14:
+                    mArmorEquipItem = ItemManager.Instance.ItemFind(value);
+                    mCount++;
+                    break;
+                case 15:
+                    mRightHandEquipItem = ItemManager.Instance.ItemFind(value);
                     mCount++;
                     break;
                 default:

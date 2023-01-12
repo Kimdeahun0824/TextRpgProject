@@ -15,9 +15,7 @@ namespace TextRpg.Src
         public UI(Player player)
         {
             this.mPlayer = player;
-            mUi = " " + player.Name + "           골드 : " + player.Gold + " 전투력 : " + player.CombatPower + " 경험치 : " + player.GetStatus(Status.EXP) + " 레벨 : " + player.GetStatus(Status.LEVEL) + "\n"
-                + "체력 : " + player.GetStatus(Status.HP) + "          힘 : " + player.GetStatus(Status.STRENGTH) + " 민첩 : " + player.GetStatus(Status.AGILITY) + " 지능 : " + player.GetStatus(Status.INTELLIGENCE) + "\n"
-                + "마나 : " + player.GetStatus(Status.MP) + "    카리스마 : " + player.GetStatus(Status.CHARISMA) + " 건강 : " + player.GetStatus(Status.HEALTH) + " 지혜 : " + player.GetStatus(Status.WISDOM);
+            PlayerInfoUpdate(player);
         }
 
         public void DataUpdate(Player player)
@@ -29,17 +27,17 @@ namespace TextRpg.Src
         {
             mPlayer = player;
             this.mPlayer = player;
-            mUi = " " + player.Name + "           골드 : " + player.Gold + " 전투력 : " + player.CombatPower + " 경험치 : " + player.GetStatus(Status.EXP) + " 레벨 : " + player.GetStatus(Status.LEVEL) + "\n"
-                + "체력 : " + player.GetStatus(Status.HP) + "          힘 : " + player.GetStatus(Status.STRENGTH) + " 민첩 : " + player.GetStatus(Status.AGILITY) + " 지능 : " + player.GetStatus(Status.INTELLIGENCE) + "\n"
-                + "마나 : " + player.GetStatus(Status.MP) + "    카리스마 : " + player.GetStatus(Status.CHARISMA) + " 건강 : " + player.GetStatus(Status.HEALTH) + " 지혜 : " + player.GetStatus(Status.WISDOM);
+            mUi = "                          " + player.Name +"\n" +"       골드 : " + player.Gold + " 전투력 : " + player.CombatPower + " 경험치 : " + player.GetStatus(Status.EXP) + " 레벨 : " + player.GetStatus(Status.LEVEL) + "\n"
+                + "       체력 : " + player.GetStatus(Status.HP) + "          힘 : " + player.GetStatus(Status.STRENGTH) + " 민첩 : " + player.GetStatus(Status.AGILITY) + " 지능 : " + player.GetStatus(Status.INTELLIGENCE) + "\n"
+                + "       마나 : " + player.GetStatus(Status.MP) + "    카리스마 : " + player.GetStatus(Status.CHARISMA) + " 건강 : " + player.GetStatus(Status.HEALTH) + " 지혜 : " + player.GetStatus(Status.WISDOM);
         }
 
         public void PlayerLevelUp(Player player)
         {
             mPlayer = player;
-            mUi = "=============================================\n" +
+            mUi = "=========================================================\n" +
                 "                LevelUp\n" +
-                "=============================================\n" +
+                "=========================================================\n" +
                 "1. 힘 : " + mPlayer.GetStatus(Status.STRENGTH) + "\n"
                 + "2. 민첩 : " + mPlayer.GetStatus(Status.AGILITY) + "\n"
                  + "3. 지능 : " + mPlayer.GetStatus(Status.INTELLIGENCE) + "\n"

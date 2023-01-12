@@ -50,11 +50,24 @@ namespace TextRpg.Src
                 , player.Stat[Status.WISDOM]
                 , player.Gold
                 , player.CurrentEventName);
+            //sw.Write("test");
+            if (player.LeftHandEquipItem != null)
+            {
+                sw.Write(",{0}", player.LeftHandEquipItem.Name);
+            }
+            if (player.ArmorEquipItem != null)
+            {
+                sw.Write(",{0}", player.ArmorEquipItem.Name);
+            }
+            if (player.RightHandEquipItem != null)
+            {
+                sw.Write(",{0}", player.RightHandEquipItem.Name);
+            }
             if (0 < player.PlayerInventory.Items.Count)
             {
                 foreach (var i in player.PlayerInventory.Items)
                 {
-                    sw.WriteLine(",{0}", i.Name);
+                    sw.Write(",{0}", i.Name);
                 }
             }
             sw.Close();
@@ -121,7 +134,7 @@ namespace TextRpg.Src
 
         public void EventLoad()
         {
-            
+
             FileStream fs = File.OpenRead("Events.tsv");
             StreamReader sr = new StreamReader(fs);
             string s;

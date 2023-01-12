@@ -53,7 +53,7 @@ namespace TextRpg.Src
         {
             ui = new UI(player);
             Random random = new Random();
-            Content = ui.GetUI + "\n=============================================\n";
+            Content = ui.GetUI + "\n=========================================================\n";
             //    + _event.Content + "\n=============================================\n";
             //mContent += "획득! : " + _event.RewardItemKey[random.Next(0, _event.RewardItemKey.Count)] + "\n";
 
@@ -74,9 +74,9 @@ namespace TextRpg.Src
         public override void EventProgress(Event _event)
         {
             Content = ui.GetUI;
-            Content += "\n=============================================\n";
+            Content += "\n=========================================================\n";
             Content += _event.Content;
-            Content += "\n=============================================\n";
+            Content += "\n=========================================================\n";
             foreach (var i in _event.Optional)
             {
                 Content += i + "\n";
@@ -86,9 +86,9 @@ namespace TextRpg.Src
         public override void EventSuccess(Event _event)
         {
             Content = ui.GetUI;
-            Content += "\n=============================================\n";
+            Content += "\n=========================================================\n";
             Content += _event.Content;
-            Content += "\n=============================================\n";
+            Content += "\n=========================================================\n";
             if (0 < _event.RewardGold)
             {
                 Content += "+ " + _event.RewardGold + " GOLD\n";
@@ -120,12 +120,12 @@ namespace TextRpg.Src
                     Content += "획득! : " + i + "\n";
                 }
             }
-            Content += "=============================================\n";
+            Content += "=========================================================\n";
             foreach (var i in _event.Optional)
             {
                 Content += i + "\n";
             }
-            Content += "\n=============================================\n" +
+            Content += "\n=========================================================\n" +
                 "Inventory : I\n";
 
         }
@@ -144,88 +144,14 @@ namespace TextRpg.Src
         {
             mPlayer = player;
             mInventory = player.PlayerInventory;
-            Content = "=============================================\n" +
-                "Player Inventory 장비중인 아이템\n";
-            if(mPlayer.LeftHandEquipItem != null)
-            {
-                Item item = mPlayer.LeftHandEquipItem;
-                if(item.TargetStatus_2 != Status.NONE)
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / " + item.TargetStatus_2
-                        + " / 전투력 :" + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue + mPlayer.GetStatus(item.TargetStatus_2) * item.MultiPlyValue)
-                        + "\n";
-                }
-                else
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / 전투력 :" + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue)
-                        + "\n";
-                }
-            }
-            if(mPlayer.ArmorEquipItem != null)
-            {
-                Item item = mPlayer.ArmorEquipItem;
-                if (item.TargetStatus_2 != Status.NONE)
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / " + item.TargetStatus_2
-                        + " / 전투력 :" + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue + mPlayer.GetStatus(item.TargetStatus_2) * item.MultiPlyValue)
-                        + "\n";
-                }
-                else
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / 전투력 :" + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue)
-                        + "\n";
-                }
-            }
-            if (mPlayer.RightHandEquipItem != null)
-            {
-                Item item = mPlayer.RightHandEquipItem;
-                if (item.TargetStatus_2 != Status.NONE)
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / " + item.TargetStatus_2
-                        + " / 전투력 :" + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue + mPlayer.GetStatus(item.TargetStatus_2) * item.MultiPlyValue)
-                        + "\n";
-                }
-                else
-                {
-                    Content += item.Name
-                        + " / " + item.ItemType
-                        + " / " + item.TargetStatus_1
-                        + " / 전투력 : " + (mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue)
-                        + "\n";
-                }
-            }
-            Content += "=============================================\n";
-            for (int i = 0; i < mInventory.Items.Count; i++)
-            {
-                if (i != 0 && i % 3 == 0)
-                {
-                    Content += "\n";
-                }
-                Content += i + ". " + mInventory.Items[i].Name + " ";
-            }
-            Content += "\n=============================================\n설명을 볼 아이템을 선택 : ";
+            SceneOpen(player);
         }
 
         public override void SceneOpen(Player player)
         {
             mPlayer = player;
             mInventory = player.PlayerInventory;
-            Content = "=============================================\n" +
+            Content = "=========================================================\n" +
                 "Player Inventory 장비중인 아이템\n";
             if (mPlayer.LeftHandEquipItem != null)
             {
@@ -290,7 +216,7 @@ namespace TextRpg.Src
                         + "\n";
                 }
             }
-            Content += "=============================================\n";
+            Content += "=========================================================\n";
             for (int i = 0; i < mInventory.Items.Count; i++)
             {
                 if (i != 0 && i % 3 == 0)
@@ -299,7 +225,7 @@ namespace TextRpg.Src
                 }
                 Content += i + ". " + mInventory.Items[i].Name + " ";
             }
-            Content += "\n=============================================\n설명을 볼 아이템을 선택 : ";
+            Content += "\n=========================================================\n설명을 볼 아이템을 선택 : ";
         }
 
         public override bool ItemInfo(int select)
@@ -310,24 +236,16 @@ namespace TextRpg.Src
             }
             IsOpen = true;
             Item mItem = mInventory.Items[select];
-            Content = "=============================================\n" +
-                "이름 :" + mItem.Name + "\n" +
-                "연관 스탯 : " + mItem.TargetStatus_1 + "\n";
-            if (mItem.TargetStatus_2 != Status.NONE)
-            {
-                Content += "연관 스탯 : " + mItem.TargetStatus_2 + "\n";
-                Content += "전투력 : " + (mPlayer.GetStatus(mItem.TargetStatus_2) * mItem.MultiPlyValue
-                    + mPlayer.GetStatus(mItem.TargetStatus_1) * mItem.MultiPlyValue) + "\n";
-            }
-            else
-            {
-                Content += "전투력 : " + mPlayer.GetStatus(mItem.TargetStatus_1) * mItem.MultiPlyValue + "\n";
-            }
-            Content += "=============================================\n" +
+            Content = "=========================================================\n";
+
+            ItemContentAdd(mItem);
+
+            Content += "=========================================================\n" +
                 "현재 장착중인 아이템\n" +
-                "=============================================\n";
+                "=========================================================\n";
 
             bool playerItemEquip = false;
+            Item equipitem;
             switch (mItem.ItemType)
             {
                 case ItemType.NONE:
@@ -335,7 +253,9 @@ namespace TextRpg.Src
                 case ItemType.LEFTHAND:
                     if (mPlayer.LeftHandEquipItem != null)
                     {
-
+                        playerItemEquip = true;
+                        equipitem = mPlayer.LeftHandEquipItem;
+                        ItemContentAdd(equipitem);
                     }
                     else
                     {
@@ -345,7 +265,9 @@ namespace TextRpg.Src
                 case ItemType.RIGHTHAND:
                     if (mPlayer.RightHandEquipItem != null)
                     {
-
+                        playerItemEquip = true;
+                        equipitem = mPlayer.RightHandEquipItem;
+                        ItemContentAdd(equipitem);
                     }
                     else
                     {
@@ -359,17 +281,23 @@ namespace TextRpg.Src
                     }
                     if (mPlayer.LeftHandEquipItem != null)
                     {
-
+                        playerItemEquip = true;
+                        equipitem = mPlayer.LeftHandEquipItem;
+                        ItemContentAdd(equipitem);
                     }
                     if (mPlayer.RightHandEquipItem != null)
                     {
-
+                        playerItemEquip = true;
+                        equipitem = mPlayer.RightHandEquipItem;
+                        ItemContentAdd(equipitem);
                     }
                     break;
                 case ItemType.ARMOR:
                     if (mPlayer.ArmorEquipItem != null)
                     {
-
+                        playerItemEquip = true;
+                        equipitem = mPlayer.ArmorEquipItem;
+                        ItemContentAdd(equipitem);
                     }
                     else
                     {
@@ -382,11 +310,29 @@ namespace TextRpg.Src
             if (!playerItemEquip)
             {
                 Content += "없음\n" +
-                   "=============================================\n";
+                   "=========================================================\n";
             }
             Content += "장착 : ENTER  뒤로 : ESC\n";
 
             return true;
+        }
+
+        public void ItemContentAdd(Item item)
+        {
+            Content +=
+            "이름 :" + item.Name + "\n" +
+            "연관 스탯 : " + item.TargetStatus_1 + "\n";
+            if (item.TargetStatus_2 != Status.NONE)
+            {
+                Content += "연관 스탯 : " + item.TargetStatus_2 + "\n";
+                Content += "전투력 : " + (mPlayer.GetStatus(item.TargetStatus_2) * item.MultiPlyValue
+                    + mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue) + "\n";
+            }
+            else
+            {
+                Content += "전투력 : " + mPlayer.GetStatus(item.TargetStatus_1) * item.MultiPlyValue + "\n";
+            }
+            Content += "=========================================================\n";
         }
     }
 
@@ -415,5 +361,19 @@ namespace TextRpg.Src
             Content = mUi.GetUI;
         }
 
+    }
+
+    internal class PlayerDeadScene : Scene
+    {
+        string test = "┏┓︱︱┏┓ ┏━━━┓ ┏┓︱┏┓   ┏━━━┓ ┏━━┓ ┏━━━┓ ┏━━━┓\r\n┃┗┓┏┛┃ ┃┏━┓┃ ┃┃︱┃┃   ┗┓┏┓┃ ┗┫┣┛ ┃┏━━┛ ┗┓┏┓┃\r\n┗┓┗┛┏┛ ┃┃︱┃┃ ┃┃︱┃┃   ︱┃┃┃┃ ︱┃┃︱ ┃┗━━┓ ︱┃┃┃┃\r\n︱┗┓┏┛︱ ┃┃︱┃┃ ┃┃︱┃┃   ︱┃┃┃┃ ︱┃┃︱ ┃┏━━┛ ︱┃┃┃┃\r\n︱︱┃┃︱︱ ┃┗━┛┃ ┃┗━┛┃   ┏┛┗┛┃ ┏┫┣┓ ┃┗━━┓ ┏┛┗┛┃\r\n︱︱┗┛︱︱ ┗━━━┛ ┗━━━┛   ┗━━━┛ ┗━━┛ ┗━━━┛ ┗━━━┛";
+        public PlayerDeadScene()
+        {
+            SceneUpdate();
+        }
+
+        public override void SceneUpdate()
+        {
+            Content = test;
+        }
     }
 }
